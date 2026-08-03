@@ -240,6 +240,8 @@ kbd{font-family:var(--mono);font-size:10px;padding:3px 6px;border:1px solid var(
 .card>*{position:relative;z-index:2}
 .card:hover,.card:focus-visible{flex-grow:4.2;border-color:var(--line-2)}
 .card:hover::before{opacity:.75}
+.card.shot::before{opacity:.62}
+.card.shot:hover::before{opacity:.95}
 .card .tag{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
 .card .body{max-height:0;opacity:0;overflow:hidden;transition:max-height .7s var(--ease),opacity .5s;transition-delay:.05s}
 .card:hover .body,.card:focus-visible .body{max-height:280px;opacity:1}
@@ -674,7 +676,7 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PROJECTS = [
   { t:'Rahgir', tag:'travel · in progress',
     d:'A companion for Indian road journeys. Plan the route, see what is actually open along it, and keep the whole itinerary readable when the signal drops out between towns.',
-    s:['Next.js','FastAPI','Maps API'], art:'radial-gradient(90% 80% at 20% 15%,#2E6BFF,transparent 60%),linear-gradient(150deg,#0B1C4E,#070A12)' },
+    s:['Next.js','FastAPI','Maps API'], img:'Projects_ScreenShot/Rahgir.png', art:'radial-gradient(90% 80% at 20% 15%,#2E6BFF,transparent 60%),linear-gradient(150deg,#0B1C4E,#070A12)' },
   { t:'Baithak', tag:'open source · in progress',
     d:'An AI meeting agent that joins the call itself — captures audio and slides, writes a structured summary, then answers plain questions across every session you have ever recorded.',
     s:['Vexa','FastAPI','LangGraph','Qdrant'], art:'radial-gradient(85% 80% at 70% 20%,#7C5CFF,transparent 60%),linear-gradient(150deg,#1B1160,#070A12)' },
@@ -687,10 +689,10 @@ const PROJECTS = [
     s:['ESP32','MQTT','Python','LLM'], art:'radial-gradient(85% 80% at 65% 30%,#E8B23A,transparent 58%),linear-gradient(150deg,#3A2708,#080A10)' },
   { t:'CI/CD Pipeline Healer', tag:'semifinalist · rift noida',
     d:'A pipeline agent that reads a failing build log, works out what actually broke, proposes the patch, and opens the pull request itself. Shipped live before judging closed.',
-    s:['LangGraph','FastAPI','GitHub API'], art:'radial-gradient(85% 80% at 25% 25%,#2E6BFF,transparent 55%),linear-gradient(150deg,#101C52,#060911)' },
+    s:['LangGraph','FastAPI','GitHub API'], img:'Projects_ScreenShot/CI_CD_HEALER.png', art:'radial-gradient(85% 80% at 25% 25%,#2E6BFF,transparent 55%),linear-gradient(150deg,#101C52,#060911)' },
   { t:'CampusAI', tag:'retrieval',
     d:'The college handbook, circulars and timetables made answerable. Students ask in ordinary language and get the clause it came from, not a paraphrase.',
-    s:['LangChain','Qdrant','FastAPI'], art:'radial-gradient(85% 80% at 75% 70%,#7C5CFF,transparent 58%),linear-gradient(150deg,#221046,#070912)' },
+    s:['LangChain','Qdrant','FastAPI'], img:'Projects_ScreenShot/Campus_AI.png', art:'radial-gradient(85% 80% at 75% 70%,#7C5CFF,transparent 58%),linear-gradient(150deg,#221046,#070912)' },
   { t:'NAV Predictor', tag:'ml · finance',
     d:'Mutual fund NAV forecasting with a plain Buy, Hold or Sell at the end of it — and the feature attribution that explains why the model landed there.',
     s:['Python','scikit-learn','pandas'], art:'radial-gradient(85% 80% at 35% 20%,#35E1E1,transparent 56%),linear-gradient(150deg,#0C3A3A,#070A11)' },
@@ -702,7 +704,7 @@ const PROJECTS = [
     s:['React','Tailwind','Vercel'], art:'radial-gradient(85% 80% at 30% 65%,#7C5CFF,transparent 56%),linear-gradient(150deg,#1D1444,#070912)' },
   { t:'Diwali Donation Website', tag:'community',
     d:'A donation drive built for a festival week — one page, a visible running total, and a flow short enough to finish on a phone in a crowded street.',
-    s:['React','Supabase','Vercel'], art:'radial-gradient(85% 80% at 70% 25%,#E8B23A,transparent 56%),linear-gradient(150deg,#42300B,#080A10)' },
+    s:['React','Supabase','Vercel'], img:'Projects_ScreenShot/DIwali_Donation.png', art:'radial-gradient(85% 80% at 70% 25%,#E8B23A,transparent 56%),linear-gradient(150deg,#42300B,#080A10)' },
 ];
 const SKILLS = [
   ['Python',0,10,14,1], ['Java',0,62,8,1], ['TypeScript',0,26,72,0], ['SQL',0,70,66,0],
@@ -733,7 +735,7 @@ const MARQUEE = ['Python','FastAPI','LangGraph','Qdrant','Java','Spring Boot','e
    RENDER DATA-DRIVEN SECTIONS
    --------------------------------------------------------- */
 $('#projRow').innerHTML = PROJECTS.map(p => `
-  <article class="card" style="--art:${p.art}" tabindex="0">
+  <article class="card${p.img?' shot':''}" style="--art:${p.img?`center/cover no-repeat url('${p.img}')`:p.art}" tabindex="0">
     <div class="tag">${p.tag}</div>
     <h3 style="font-size:26px">${p.t}</h3>
     <div class="body">

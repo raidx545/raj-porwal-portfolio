@@ -1,4 +1,4 @@
-# Raj Porwal — Portfolio
+# Raj Porwl — Portfolio
 
 Personal portfolio site. Static single-page site (`index.html`), deployed on Vercel.
 

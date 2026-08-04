@@ -471,7 +471,7 @@ kbd{font-family:var(--mono);font-size:10px;padding:3px 6px;border:1px solid var(
           <a class="btn btn-primary mag" href="#projects" data-goto="projects">See the work
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn mag" href="#contact" data-goto="contact">Start a conversation</a>
-          <a class="btn mag" href="#" id="resumeBtn">Download résumé</a>
+          <a class="btn mag" href="Raj_Porwl_Resume.pdf" id="resumeBtn" download="Raj_Porwl_Resume.pdf">Download résumé</a>
         </div>
         <div class="socials rise" style="--d:660ms">
           <a href="https://github.com/raidx545" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg></a>
@@ -1024,7 +1024,7 @@ $('#again').addEventListener('click', () => {
   form.classList.remove('done');
   ['#f-name','#f-mail','#f-msg'].forEach(s => $(s).value = '');
 });
-$('#resumeBtn').addEventListener('click', e => { e.preventDefault(); toast('Drop resume.pdf in /public and link it here'); });
+$('#resumeBtn').addEventListener('click', () => toast('Downloading résumé…'));
 
 /* ---------------------------------------------------------
    COMMAND PALETTE

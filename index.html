@@ -187,7 +187,9 @@ kbd{font-family:var(--mono);font-size:10px;padding:3px 6px;border:1px solid var(
 .portrait .ring{position:absolute;inset:-1px;border-radius:26px;background:conic-gradient(from 0deg,transparent,var(--cyan),transparent 40%,var(--violet),transparent 75%);
   animation:spin 7s linear infinite;opacity:.5}
 @keyframes spin{to{transform:rotate(360deg)}}
-.portrait .inner{position:absolute;inset:1px;border-radius:25px;background:linear-gradient(160deg,#0B111D,#06090F);display:grid;place-items:center;overflow:hidden}
+.portrait .inner{position:absolute;inset:1px;border-radius:25px;background:radial-gradient(120% 100% at 50% 5%,rgba(46,107,255,.22),transparent 55%),linear-gradient(160deg,#0B111D,#06090F);display:grid;place-items:center;overflow:hidden}
+.portrait model-viewer{width:100%;height:100%;background:transparent;--poster-color:transparent;--progress-bar-color:var(--cyan);cursor:grab}
+.portrait model-viewer:active{cursor:grabbing}
 .portrait .mono{font-family:var(--mono);font-size:58px;font-weight:700;letter-spacing:-.04em;
   background:linear-gradient(120deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
 .portrait .cap{position:absolute;left:16px;right:16px;bottom:14px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
@@ -479,7 +481,18 @@ kbd{font-family:var(--mono);font-size:10px;padding:3px 6px;border:1px solid var(
       </div>
       <div class="portrait rise" style="--d:400ms">
         <div class="ring"></div>
-        <div class="inner"><span class="mono">RP</span><span class="cap">Etawah → Ghaziabad · IST</span></div>
+        <div class="inner">
+          <model-viewer id="avatar" src="assets/avatar.glb" alt="Raj Porwl — 3D avatar"
+            interaction-prompt="none" disable-tap disable-zoom disable-pan
+            camera-target="0m 1.46m 0m" camera-orbit="0deg 87deg 0.92m"
+            min-camera-orbit="auto 72deg 0.92m" max-camera-orbit="auto 100deg 0.92m"
+            field-of-view="30deg" min-field-of-view="30deg" max-field-of-view="30deg"
+            shadow-intensity="0" exposure="1.05" tone-mapping="neutral" environment-image="neutral"
+            loading="eager" reveal="auto">
+            <span slot="poster" class="mono">RP</span>
+          </model-viewer>
+          <span class="cap">Etawah → Ghaziabad · IST</span>
+        </div>
       </div>
     </div>
     <div class="scroll-cue"><span class="arrow"></span> scroll left</div>
@@ -1086,6 +1099,29 @@ document.fonts?.ready.then(measure);
 measure();
 raf();
 })();
+</script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+<script type="module">
+/* Hero avatar: turn to follow the cursor, gentle idle sway otherwise. */
+customElements.whenDefined('model-viewer').then(() => {
+  const mv = document.getElementById('avatar');
+  if (!mv || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const basePhi = 87, radius = 0.92, thetaRange = 24, phiRange = 9;
+  let tT = 0, tP = basePhi, cT = 0, cP = basePhi, active = false, idleT;
+  addEventListener('pointermove', e => {
+    const nx = (e.clientX / innerWidth) * 2 - 1, ny = (e.clientY / innerHeight) * 2 - 1;
+    tT = nx * thetaRange; tP = basePhi + ny * phiRange;
+    active = true; clearTimeout(idleT); idleT = setTimeout(() => active = false, 2500);
+  }, { passive: true });
+  function loop(now) {
+    if (!active) { tT = Math.sin(now / 2600) * 6; tP = basePhi + Math.sin(now / 3400) * 2; }
+    cT += (tT - cT) * 0.09; cP += (tP - cP) * 0.09;
+    mv.cameraOrbit = `${cT.toFixed(2)}deg ${cP.toFixed(2)}deg ${radius}m`;
+    mv.jumpCameraToGoal();
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+});
 </script>
 </body>
 </html>
